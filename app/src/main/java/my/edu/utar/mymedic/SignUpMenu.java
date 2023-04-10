@@ -2,12 +2,14 @@ package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +43,9 @@ public class SignUpMenu extends AppCompatActivity {
     private EditText confirmPasswordInputField;
     private Button signUpButton;
     private TextView loginLinkTextView;
+    private AlertDialog.Builder builder_alert;
+    private AlertDialog email_duplicate_alert;
+    private Handler handler_alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +54,15 @@ public class SignUpMenu extends AppCompatActivity {
 
         Handler handler = new Handler();
 
+
         nameInputField = findViewById(R.id.nameInputField);
         emailInputField = findViewById(R.id.emailInputField);
         passwordInputField = findViewById(R.id.passwordInputField);
         confirmPasswordInputField = findViewById(R.id.confirmPasswordInputField);
         signUpButton = findViewById(R.id.signUpButton);
         loginLinkTextView = findViewById(R.id.loginLinkTextView);
+        handler_alert = new Handler(Looper.getMainLooper());
+        builder_alert = new AlertDialog.Builder(this);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,9 +161,12 @@ public class SignUpMenu extends AppCompatActivity {
         public void run() {
             try {
                 URL url = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User");
+                URL url2 = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User?email=eq."+mEmail);
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+                HttpURLConnection hc2 = (HttpURLConnection) url2.openConnection();
 
                 Log.i("SignUpMenu", url.toString());
+                Log.i("SignUpMenu", url2.toString());
 
                 hc.setRequestMethod("POST");
                 hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
@@ -162,12 +174,45 @@ public class SignUpMenu extends AppCompatActivity {
                 hc.setRequestProperty("Content-Type", "application/json");
                 hc.setRequestProperty("Prefer", "return=minimal");
 
+                hc2.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
+                hc2.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+
+
+                InputStream input2 = hc2.getInputStream();
+                String result2 = readStream(input2);
+
+
+                JSONArray InfoArray = new JSONArray(result2);
+                for (int i=0; i<InfoArray.length(); i++){
+                    String email_table = InfoArray.getJSONObject(i).get("email").toString();
+                    if (mEmail.equals(email_table))
+                    {
+                        handler_alert.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                builder_alert.setTitle("Error");
+                                builder_alert.setMessage("The email entered is used !");
+                                builder_alert.setCancelable(false);
+                                builder_alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                                email_duplicate_alert = builder_alert.create();
+                                email_duplicate_alert.show();
+                            }
+                        });
+                        return;
+                    }
+                }
+
+                hc.setDoOutput(true);
+                OutputStream output = hc.getOutputStream();
                 JSONObject info = new JSONObject();
                 info.put("name", mName);
                 info.put("email", mEmail);
                 info.put("password", mPassword);
-                hc.setDoOutput(true);
-                OutputStream output = hc.getOutputStream();
                 output.write(info.toString().getBytes());
                 output.flush();
 
@@ -180,7 +225,7 @@ public class SignUpMenu extends AppCompatActivity {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Success",
+                            Toast.makeText(getApplicationContext(), "Sign Up Successful",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignUpMenu.this, MainActivity.class);
                             startActivity(intent);
