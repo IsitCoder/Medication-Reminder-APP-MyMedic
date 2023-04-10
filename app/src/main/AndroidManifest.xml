@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMedic">
         <activity
+            android:name=".ReportMenu"
+            android:exported="false" />
+        <activity
+            android:name=".ReminderMenu"
+            android:exported="false" />
+        <activity
+            android:name=".MedicationMenu"
+            android:exported="false" />
+        <activity
             android:name=".UserMainMenu"
             android:exported="false" />
         <activity

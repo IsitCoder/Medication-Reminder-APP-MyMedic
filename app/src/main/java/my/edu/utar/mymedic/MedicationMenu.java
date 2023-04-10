@@ -1,24 +1,20 @@
 package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
+public class MedicationMenu extends AppCompatActivity {
 
-public class UserMainMenu extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    private ImageView logoImageView;
+    private ImageView homeButton;
     private Button medicationButton;
     private Button reminderButton;
     private Button reportButton;
@@ -26,31 +22,32 @@ public class UserMainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_main_menu);
+        setContentView(R.layout.activity_medication_menu);
 
-        logoImageView = findViewById(R.id.logoImageView);
+        homeButton = findViewById(R.id.home_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicationMenu.this, UserMainMenu.class);
+                startActivity(intent);
+            }
+        });
 
         medicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserMainMenu.this, MedicationMenu.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "You are already on this page.", Toast.LENGTH_SHORT).show();
             }
         });
 
         reminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserMainMenu.this, ReminderMenu.class);
+                Intent intent = new Intent(MedicationMenu.this, ReminderMenu.class);
                 startActivity(intent);
             }
         });
@@ -58,30 +55,11 @@ public class UserMainMenu extends AppCompatActivity {
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserMainMenu.this, ReportMenu.class);
+                Intent intent = new Intent(MedicationMenu.this, ReportMenu.class);
                 startActivity(intent);
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            // Handle settings button click
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

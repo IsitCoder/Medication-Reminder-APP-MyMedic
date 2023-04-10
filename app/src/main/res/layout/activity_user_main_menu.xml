@@ -5,68 +5,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#BBDEFB">
 
-    <ImageView
-        android:id="@+id/option_menu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:padding="8dp"
-        app:backgroundTint="#3F51B5"
-        android:src="@drawable/optionmenu"/>
-
-    <ImageView
-        android:id="@+id/back_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:padding="8dp"
-        app:backgroundTint="#3F51B5"
-        android:src="@drawable/backbutton"/>
-
-    <LinearLayout
-        android:id="@+id/button_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        app:backgroundTint="#3F51B5">
+        android:layout_height="match_parent"
+        android:background="#BBDEFB">
 
-        <ImageButton
-            android:id="@+id/home_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            app:backgroundTint="#3F51B5"
-            android:src="@drawable/home"/>
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/mymedic_logo" />
 
-        <ImageButton
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logoImageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="Welcome to MyMedic, your personal medication tracker reminder." />
+
+        <Button
             android:id="@+id/medication_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Medication"
+            app:backgroundTint="#03A9F4" />
+
+        <ImageView
+            android:id="@+id/medication_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_alignTop="@id/medication_button"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/medication_button"
             android:scaleType="centerInside"
-            app:backgroundTint="#3F51B5"
-            android:src="@drawable/medicine"/>
+            android:src="@drawable/medicine"
+            app:backgroundTint="#3F51B5" />
 
-        <ImageButton
+        <Button
             android:id="@+id/reminder_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/medication_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Alarm Reminder"
+            app:backgroundTint="#00BCD4" />
+
+        <ImageView
+            android:id="@+id/reminder_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_alignTop="@id/reminder_button"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/reminder_button"
             android:scaleType="centerInside"
-            app:backgroundTint="#3F51B5"
-            android:src="@drawable/alarm"/>
+            android:src="@drawable/alarm"
+            app:backgroundTint="#3F51B5" />
 
-        <ImageButton
+        <Button
             android:id="@+id/report_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reminder_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Report"
+            app:backgroundTint="#009688" />
+
+        <ImageView
+            android:id="@+id/report_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_alignTop="@id/report_button"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/report_button"
             android:scaleType="centerInside"
-            app:backgroundTint="#3F51B5"
-            android:src="@drawable/report"/>
+            android:src="@drawable/report"
+            app:backgroundTint="#3F51B5" />
 
-    </LinearLayout>
-
+    </RelativeLayout>
 </RelativeLayout>
