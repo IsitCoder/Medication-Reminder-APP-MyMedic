@@ -62,21 +62,4 @@ public class ReportMenu extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Exit");
-        builder.setMessage("Are you sure you want to exit?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                System.exit(0);
-            }
-        });
-        builder.setNegativeButton("No", null);
-        builder.show();
-    }
-
 }

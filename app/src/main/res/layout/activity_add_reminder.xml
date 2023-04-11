@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00BCD4">
@@ -125,11 +126,13 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:hint="Select a Medicine">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <Spinner
+                        android:id="@+id/medicine_option"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -142,20 +145,40 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/start_date"
+                <LinearLayout
+                    android:id="@+id/startdate_container"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="date" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="50dp"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/start_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="false"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/startcalendar_button"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/calendar"
+                        app:backgroundTint="#BBDEFB" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -167,20 +190,40 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/end_date"
+                <LinearLayout
+                    android:id="@+id/enddate_container"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="date" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="50dp"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/end_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="false"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/endcalendar_button"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/calendar"
+                        app:backgroundTint="#BBDEFB" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -192,20 +235,40 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/reminder_time"
+                <LinearLayout
+                    android:id="@+id/remindertime_container"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="time" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="50dp"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/reminder_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="false"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/clock_button"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/clock"
+                        app:backgroundTint="#BBDEFB" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

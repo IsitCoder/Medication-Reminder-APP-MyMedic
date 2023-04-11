@@ -69,8 +69,4 @@ public class AddMedicine extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-    }
-
 }
