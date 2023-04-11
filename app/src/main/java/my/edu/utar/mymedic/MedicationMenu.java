@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -16,9 +17,9 @@ public class MedicationMenu extends AppCompatActivity {
 
     private ImageView homeButton;
     private ImageView addMedicineButton;
-    private Button medicationButton;
-    private Button reminderButton;
-    private Button reportButton;
+    private ImageButton medicationButton;
+    private ImageButton reminderButton;
+    private ImageButton reportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

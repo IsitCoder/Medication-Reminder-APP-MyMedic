@@ -7,47 +7,88 @@
 
     <ImageView
         android:id="@+id/home_button"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:padding="8dp"
-        android:src="@drawable/home"
-        app:backgroundTint="#3F51B5" />
+        android:src="@drawable/home" />
 
     <LinearLayout
-        android:id="@+id/button_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        app:backgroundTint="#3F51B5">
+        android:layout_height="match_parent"
+        android:layout_below="@id/home_button"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/medication_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/medicine"
-            app:backgroundTint="#03A9F4" />
+        <LinearLayout
+            android:id="@+id/medicine_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/reminder_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/alarm"
-            app:backgroundTint="#00BCD4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
+                android:text="Report List"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/report_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@drawable/report"
-            app:backgroundTint="#009688" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <TableLayout
+                    android:id="@+id/score_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:stretchColumns="*" />
+
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/button_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:backgroundTint="#3F51B5">
+
+                <ImageButton
+                    android:id="@+id/medication_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/medicine"
+                    app:backgroundTint="#03A9F4" />
+
+                <ImageButton
+                    android:id="@+id/reminder_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/alarm"
+                    app:backgroundTint="#00BCD4" />
+
+                <ImageButton
+                    android:id="@+id/report_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/report"
+                    app:backgroundTint="#009688" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

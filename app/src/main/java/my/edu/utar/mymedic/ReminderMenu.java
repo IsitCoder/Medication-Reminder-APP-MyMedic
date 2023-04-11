@@ -8,15 +8,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ReminderMenu extends AppCompatActivity {
 
     private ImageView homeButton;
-    private Button medicationButton;
-    private Button reminderButton;
-    private Button reportButton;
+    private ImageView addReminderButton;
+    private ImageButton medicationButton;
+    private ImageButton reminderButton;
+    private ImageButton reportButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class ReminderMenu extends AppCompatActivity {
         setContentView(R.layout.activity_reminder_menu);
 
         homeButton = findViewById(R.id.home_button);
+        addReminderButton = findViewById(R.id.addreminder_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
@@ -32,6 +35,14 @@ public class ReminderMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ReminderMenu.this, UserMainMenu.class);
+                startActivity(intent);
+            }
+        });
+
+        addReminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReminderMenu.this, AddReminder.class);
                 startActivity(intent);
             }
         });
