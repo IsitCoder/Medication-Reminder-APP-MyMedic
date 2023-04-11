@@ -15,6 +15,7 @@ import android.widget.Toast;
 public class MedicationMenu extends AppCompatActivity {
 
     private ImageView homeButton;
+    private ImageView addMedicineButton;
     private Button medicationButton;
     private Button reminderButton;
     private Button reportButton;
@@ -25,6 +26,7 @@ public class MedicationMenu extends AppCompatActivity {
         setContentView(R.layout.activity_medication_menu);
 
         homeButton = findViewById(R.id.home_button);
+        addMedicineButton = findViewById(R.id.addmedicine_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
@@ -33,6 +35,14 @@ public class MedicationMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MedicationMenu.this, UserMainMenu.class);
+                startActivity(intent);
+            }
+        });
+
+        addMedicineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicationMenu.this, AddMedicine.class);
                 startActivity(intent);
             }
         });
