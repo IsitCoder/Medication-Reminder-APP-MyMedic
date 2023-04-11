@@ -89,7 +89,19 @@ public class SQLiteAdapter {
         {
             return true;
         } else return false;
+    }
 
+    public String welcome(){
+        String[] columns = new String[] { KEY_CONTENT, KEY_CONTENT2, KEY_CONTENT3 };
+        Cursor cursor = sqLiteDatabase.query(MYDATABASE_TABLE, columns, null,
+                null, null, null, null);
+        String result = "";
+        int index_CONTENT = cursor.getColumnIndex(KEY_CONTENT);
+        for (cursor.moveToFirst(); !(cursor.isAfterLast());
+             cursor.moveToNext()) {
+            result = result + cursor.getString(index_CONTENT);
+        }
+        return result;
     }
 
     public class SQLiteHelper extends SQLiteOpenHelper {

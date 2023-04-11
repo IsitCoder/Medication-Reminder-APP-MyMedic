@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         user_SQLite.openToRead();
         if (user_SQLite.check())
         {
-            Toast.makeText(getApplicationContext(), "You had login before this.",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "You had login before this.\nWelcome "
+                            + user_SQLite.welcome() + " !", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, UserMainMenu.class);
             startActivity(intent);
         }
