@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 public class MedicationMenu extends AppCompatActivity {
 
-    private ImageView homeButton;
-    private ImageView addMedicineButton;
+    private ImageButton homeButton;
+    private ImageButton addMedicineButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;

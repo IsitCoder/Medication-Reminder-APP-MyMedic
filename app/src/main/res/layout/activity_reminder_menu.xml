@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:background="#00BCD4">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/home_button"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
+        android:layout_weight="1"
         android:padding="8dp"
-        android:src="@drawable/home" />
+        android:scaleType="centerInside"
+        android:src="@drawable/home"
+        app:backgroundTint="#00BCD4" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +51,7 @@
 
             </ScrollView>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/addreminder_button"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
@@ -57,14 +59,14 @@
                 android:layout_margin="16dp"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/addalarm" />
+                android:src="@drawable/addalarm"
+                app:backgroundTint="#00BCD4" />
 
             <LinearLayout
                 android:id="@+id/button_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:backgroundTint="#3F51B5">
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/medication_button"

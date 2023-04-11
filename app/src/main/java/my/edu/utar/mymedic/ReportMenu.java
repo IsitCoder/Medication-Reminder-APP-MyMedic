@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class ReportMenu extends AppCompatActivity {
 
-    private ImageView homeButton;
+    private ImageButton homeButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;

@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 public class ReminderMenu extends AppCompatActivity {
 
-    private ImageView homeButton;
-    private ImageView addReminderButton;
+    private ImageButton homeButton;
+    private ImageButton addReminderButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;

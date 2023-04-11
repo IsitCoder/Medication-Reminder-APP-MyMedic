@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class AddMedicine extends AppCompatActivity {
 
-    private ImageView homeButton;
+    private ImageButton homeButton;
     private Button addThisMedicineButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
