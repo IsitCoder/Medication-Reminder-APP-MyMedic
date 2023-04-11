@@ -42,6 +42,7 @@ public class LoginMenu extends AppCompatActivity {
     private AlertDialog Login_alert;
     private Handler handler_alert;
     private Handler handler_success;
+    private SQLiteAdapter user_SQLite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class LoginMenu extends AppCompatActivity {
         handler_alert = new Handler(Looper.getMainLooper());
         handler_success = new Handler(Looper.getMainLooper());
         builder_alert = new AlertDialog.Builder(this);
+        user_SQLite = new SQLiteAdapter(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,15 +133,21 @@ public class LoginMenu extends AppCompatActivity {
 
                 JSONArray InfoArray = new JSONArray(result);
                 for (int i = 0; i < InfoArray.length(); i++) {
+                    String username_table = InfoArray.getJSONObject(i).get("name").toString();
                     String email_table = InfoArray.getJSONObject(i).get("email").toString();
                     String password_table = InfoArray.getJSONObject(i).get("password").toString();
                     if (mEmail.equals(email_table) && mPassword.equals(password_table)) {
                         handler_success.post(new Runnable() {
                             @Override
                             public void run() {
+                                user_SQLite.openToWrite();
+                                user_SQLite.deleteAll();
+                                user_SQLite.insert(username_table, email_table, password_table);
+                                user_SQLite.close();
+
                                 Toast.makeText(getApplicationContext(), "Login Successful",
                                         Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginMenu.this, MainActivity.class);
+                                Intent intent = new Intent(LoginMenu.this, UserMainMenu.class);
                                 startActivity(intent);
                             }
                         });

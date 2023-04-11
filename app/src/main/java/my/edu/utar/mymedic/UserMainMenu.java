@@ -33,11 +33,11 @@ public class UserMainMenu extends AppCompatActivity {
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
 
-        setSupportActionBar(toolbar);
+        /*setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);*/
 
         medicationButton.setOnClickListener(new View.OnClickListener() {
             @Override

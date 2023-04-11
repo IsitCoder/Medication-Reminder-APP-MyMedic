@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         signUpButton = findViewById(R.id.signUpButton);
         quitButton = findViewById(R.id.quitButton);
+
+        SQLiteAdapter user_SQLite;
+        user_SQLite = new SQLiteAdapter(this);
+        user_SQLite.openToRead();
+        if (user_SQLite.check())
+        {
+            Toast.makeText(getApplicationContext(), "You had login before this.",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, UserMainMenu.class);
+            startActivity(intent);
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
