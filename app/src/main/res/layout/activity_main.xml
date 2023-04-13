@@ -20,6 +20,7 @@
         android:layout_below="@id/logoImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
+        android:textSize="16sp"
         android:text="Welcome to MyMedic, your personal medication tracker reminder. \n\nBefore you start, you need an account to store your medication information." />
 
     <Button

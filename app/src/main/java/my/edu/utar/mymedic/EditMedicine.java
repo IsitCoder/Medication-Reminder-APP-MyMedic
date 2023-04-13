@@ -3,21 +3,18 @@ package my.edu.utar.mymedic;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-public class AddMedicine extends AppCompatActivity {
+public class EditMedicine extends AppCompatActivity {
 
     private ImageButton homeButton;
-    private Button addThisMedicineButton;
+    private Button saveThisMedicineButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
@@ -34,10 +31,10 @@ public class AddMedicine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_medicine);
+        setContentView(R.layout.activity_edit_medicine);
 
         homeButton = findViewById(R.id.home_button);
-        addThisMedicineButton = findViewById(R.id.addthismedicine_button);
+        saveThisMedicineButton = findViewById(R.id.savethismedicine_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
@@ -52,7 +49,7 @@ public class AddMedicine extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddMedicine.this, UserMainMenu.class);
+                Intent intent = new Intent(EditMedicine.this, UserMainMenu.class);
                 startActivity(intent);
             }
         });
@@ -81,7 +78,7 @@ public class AddMedicine extends AppCompatActivity {
             }
         });
 
-        addThisMedicineButton.setOnClickListener(new View.OnClickListener() {
+        saveThisMedicineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -91,7 +88,7 @@ public class AddMedicine extends AppCompatActivity {
         medicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddMedicine.this, MedicationMenu.class);
+                Intent intent = new Intent(EditMedicine.this, MedicationMenu.class);
                 startActivity(intent);
             }
         });
@@ -99,7 +96,7 @@ public class AddMedicine extends AppCompatActivity {
         reminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddMedicine.this, ReminderMenu.class);
+                Intent intent = new Intent(EditMedicine.this, ReminderMenu.class);
                 startActivity(intent);
             }
         });
@@ -107,7 +104,7 @@ public class AddMedicine extends AppCompatActivity {
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddMedicine.this, ReportMenu.class);
+                Intent intent = new Intent(EditMedicine.this, ReportMenu.class);
                 startActivity(intent);
             }
         });

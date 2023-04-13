@@ -17,29 +17,31 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class AddReminder extends AppCompatActivity {
+public class EditReminder extends AppCompatActivity {
 
     private ImageButton homeButton;
-    private Button addThisReminderButton;
+    private Button saveThisReminderButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
+    private TextInputEditText reminderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_reminder);
+        setContentView(R.layout.activity_edit_reminder);
 
         homeButton = findViewById(R.id.home_button);
-        addThisReminderButton = findViewById(R.id.addthisreminder_button);
+        saveThisReminderButton = findViewById(R.id.savethisreminder_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
+        reminderName = findViewById(R.id.reminder_name);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddReminder.this, UserMainMenu.class);
+                Intent intent = new Intent(EditReminder.this, UserMainMenu.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +60,7 @@ public class AddReminder extends AppCompatActivity {
                 int month = c.get(Calendar.MONTH);
                 int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddReminder.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditReminder.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -80,7 +82,7 @@ public class AddReminder extends AppCompatActivity {
                 int month = c.get(Calendar.MONTH);
                 int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddReminder.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditReminder.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -101,7 +103,7 @@ public class AddReminder extends AppCompatActivity {
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddReminder.this,
+                TimePickerDialog timePickerDialog = new TimePickerDialog(EditReminder.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -112,7 +114,7 @@ public class AddReminder extends AppCompatActivity {
             }
         });
 
-        addThisReminderButton.setOnClickListener(new View.OnClickListener() {
+        saveThisReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,7 +124,7 @@ public class AddReminder extends AppCompatActivity {
         medicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddReminder.this, MedicationMenu.class);
+                Intent intent = new Intent(EditReminder.this, MedicationMenu.class);
                 startActivity(intent);
             }
         });
@@ -130,7 +132,7 @@ public class AddReminder extends AppCompatActivity {
         reminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddReminder.this, ReminderMenu.class);
+                Intent intent = new Intent(EditReminder.this, ReminderMenu.class);
                 startActivity(intent);
             }
         });
@@ -138,7 +140,7 @@ public class AddReminder extends AppCompatActivity {
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddReminder.this, ReportMenu.class);
+                Intent intent = new Intent(EditReminder.this, ReportMenu.class);
                 startActivity(intent);
             }
         });

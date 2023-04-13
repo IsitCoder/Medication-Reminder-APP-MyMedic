@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BBDEFB">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/mymedic_logo" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Beep Beep\nBeep Beep\nIt's Medication Time"
+        android:textSize="32sp" />
+
+    <ImageView
+        android:id="@+id/clock"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:padding="8dp"
+        android:src="@drawable/clock" />
+
+    <TextView
+        android:id="@+id/remindmeafter"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Remind me after"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/remindmeafter"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fivemin_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:text="5 min"
+            app:backgroundTint="#3F51B5" />
+
+        <Button
+            android:id="@+id/fifteenmin_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:text="15 min"
+            app:backgroundTint="#3F51B5" />
+
+        <Button
+            android:id="@+id/thirtymin_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:text="30 min"
+            app:backgroundTint="#3F51B5" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/taken_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/button_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:text="Taken"
+        app:backgroundTint="#3F51B5" />
+
+    <Button
+        android:id="@+id/skip_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/taken_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="16dp"
+        android:text="Skip"
+        app:backgroundTint="#3F51B5" />
+
+</RelativeLayout>
