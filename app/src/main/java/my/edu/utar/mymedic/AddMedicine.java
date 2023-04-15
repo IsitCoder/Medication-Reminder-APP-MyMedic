@@ -139,7 +139,7 @@ public class AddMedicine extends AppCompatActivity {
                     return;
                 }
 
-                if (mVolume<1||mDose<1) {
+                if (mVolume<=0||mDose<=0) {
                     Toast.makeText(getApplicationContext(),"Initial Volume and Dose Volume cannot be 0 value",Toast.LENGTH_SHORT).show();
                     return;
                 }
