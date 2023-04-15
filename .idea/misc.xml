@@ -10,7 +10,7 @@
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_edit_reminder.xml" value="0.13903985507246377" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_login_menu.xml" value="0.12001811594202899" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_medication_menu.xml" value="0.25" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_medication_menu.xml" value="0.18518518518518517" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_reminder_menu.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_report_menu.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_sign_up_menu.xml" value="0.12001811594202899" />
@@ -19,6 +19,7 @@
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/content_take_dose.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_first.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_second.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/medicine_recycle_view_row.xml" value="0.25" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/toolbar.xml" value="0.2" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/menu/toolbar_menu.xml" value="0.2" />
       </map>
@@ -33,7 +34,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.16" />
+        <option name="scale" value="0.17603850050658562" />
       </ProjectState>
     </option>
   </component>

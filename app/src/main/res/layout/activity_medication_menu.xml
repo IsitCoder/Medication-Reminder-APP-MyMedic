@@ -37,11 +37,11 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/test1"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addmedicine_recycleView"
                 android:layout_width="match_parent"
-                android:layout_height="352dp"
-                android:text="TextView" />
+                android:layout_height="406dp" />
 
             <ImageButton
                 android:id="@+id/addmedicine_button"
@@ -91,6 +91,8 @@
                     app:backgroundTint="#009688" />
 
             </LinearLayout>
+
+
 
         </LinearLayout>
 

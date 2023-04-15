@@ -2,6 +2,8 @@ package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,15 +28,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+import my.edu.utar.mymedic.model.medicineDto;
 
 public class MedicationMenu extends AppCompatActivity {
+
+    public ArrayList<medicineDto> medicineList = new ArrayList<medicineDto>();
 
     private ImageButton homeButton;
     private ImageButton addMedicineButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
-    private TextView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class MedicationMenu extends AppCompatActivity {
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
+
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,12 +94,10 @@ public class MedicationMenu extends AppCompatActivity {
         });
 
 
-        test = findViewById(R.id.test1);
-        test.setText("hreasdbasuid");
+
 
         Thread_GetMedicines getMedicines = new Thread_GetMedicines();
         getMedicines.start();
-
     }
 
 
@@ -106,7 +111,7 @@ public class MedicationMenu extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=MedicineName,Volume,DosageType(DosageName)");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=MedicineName,Volume,Dose,DosageType(DosageName)");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i(TAG, url.toString());
@@ -124,18 +129,31 @@ public class MedicationMenu extends AppCompatActivity {
                     input.close();
                     Log.i(TAG,"HTTP GET request successful");
                     Log.i(TAG,"Output"+result);
+
+
+                    JSONArray InfoArray = new JSONArray(result);
+
+                    int s = InfoArray.length();
+                    for (int i = 0; i < InfoArray.length(); i++) {
+                        String medicineName = InfoArray.getJSONObject(i).get("MedicineName").toString();
+                        double volume = InfoArray.getJSONObject(i).getDouble("Volume");
+                        double dose = InfoArray.getJSONObject(i).getDouble("Dose");
+
+                        medicineDto m = new medicineDto(medicineName,dose,volume);
+                        medicineList.add(m);
+                    }
+
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            test.setText(result);
+                            RecyclerView recyclerView = findViewById(R.id.addmedicine_recycleView);
+                            Medicine_RecycleViewAdapter adapter = new Medicine_RecycleViewAdapter(MedicationMenu.this,medicineList);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MedicationMenu.this));
                             Toast.makeText(getApplicationContext(), "Load successfully", Toast.LENGTH_SHORT).show();
                         }
                     });
-
-
-
-
-                JSONArray InfoArray = new JSONArray(result);
 
                 } else {
                     Log.i(TAG, "Response Code: " + hc.getResponseCode());
@@ -151,6 +169,7 @@ public class MedicationMenu extends AppCompatActivity {
             }catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
+
 
         }
     }
