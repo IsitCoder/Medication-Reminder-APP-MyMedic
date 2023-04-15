@@ -7,11 +7,25 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MedicationMenu extends AppCompatActivity {
 
@@ -20,6 +34,7 @@ public class MedicationMenu extends AppCompatActivity {
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
+    private TextView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,89 @@ public class MedicationMenu extends AppCompatActivity {
             }
         });
 
+
+        test = findViewById(R.id.test1);
+        test.setText("hreasdbasuid");
+
+        Thread_GetMedicines getMedicines = new Thread_GetMedicines();
+        getMedicines.start();
+
     }
+
+
+    private class Thread_GetMedicines extends Thread {
+        private String TAG = "GetMedicine";
+        private String mName;
+        private String mEmail;
+        private String mPassword;
+
+
+
+        public void run() {
+            try {
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=MedicineName,Volume,DosageType(DosageName)");
+                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+
+                Log.i(TAG, url.toString());
+
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
+
+
+
+
+                if(hc.getResponseCode()==200) {
+
+                    InputStream input = hc.getInputStream();
+                    String result = readStream(input);
+                    input.close();
+                    Log.i(TAG,"HTTP GET request successful");
+                    Log.i(TAG,"Output"+result);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            test.setText(result);
+                            Toast.makeText(getApplicationContext(), "Load successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+
+                JSONArray InfoArray = new JSONArray(result);
+
+                } else {
+                    Log.i(TAG, "Response Code: " + hc.getResponseCode());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+            }catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private String readStream(InputStream is) {
+        try {
+            ByteArrayOutputStream bo = new
+                    ByteArrayOutputStream();
+            int i = is.read();
+            while (i != -1) {
+                bo.write(i);
+                i = is.read();
+            }
+            return bo.toString();
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
 
 }
