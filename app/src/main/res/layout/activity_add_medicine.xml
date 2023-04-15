@@ -78,7 +78,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="505dp"
             android:layout_weight="1">
 
             <LinearLayout
@@ -90,8 +90,8 @@
                     android:id="@+id/medicinetype_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:text="Select Medicine Type"
                     android:textSize="20sp"
@@ -100,15 +100,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp"
                     android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/tablet_button"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="61dp"
                         android:layout_weight="1"
                         android:padding="8dp"
                         android:scaleType="centerInside"
@@ -118,7 +118,7 @@
                     <ImageButton
                         android:id="@+id/drop_button"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="61dp"
                         android:layout_weight="1"
                         android:padding="8dp"
                         android:scaleType="centerInside"
@@ -128,7 +128,7 @@
                     <ImageButton
                         android:id="@+id/injection_button"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="61dp"
                         android:layout_weight="1"
                         android:padding="8dp"
                         android:scaleType="centerInside"
@@ -140,45 +140,45 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:text="Tablet"
-                        android:textSize="16sp"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:text="Drop"
-                        android:textSize="16sp"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Injection"
-                        android:textSize="16sp"
                         android:layout_centerHorizontal="true"
-                        android:gravity="center"/>
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Injection"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:text="Medicine Name"
                     android:textSize="20sp"
@@ -187,8 +187,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -200,8 +200,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:text="Initial Volume / Quantity"
                     android:textSize="20sp"
@@ -210,21 +210,25 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/initial_volume"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:hint="Initial quantity for medicine"
+                        android:ems="10"
+                        android:inputType="numberDecimal"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/dosetype"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:text="Dose"
                     android:textSize="20sp"
@@ -233,15 +237,18 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dose"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="volume / quantity per dose"/>
+                        android:layout_height="match_parent"
+                        android:hint="volume / quantity per dose"
+                        android:ems="10"
+                        android:inputType="numberDecimal"/>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
