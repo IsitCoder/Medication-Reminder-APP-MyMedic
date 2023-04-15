@@ -3,18 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_medicine.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_reminder.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_dose_checking.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_edit_medicine.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_edit_reminder.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_main.xml" value="0.266304347826087" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_medication_menu.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_reminder_menu.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_report_menu.xml" value="0.25" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_take_dose.xml" value="0.15830800405268491" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_user_main_menu.xml" value="0.328125" />
-        <entry key="..\:/Users/xiaor/AndroidStudioProjects/MyMedic/app/src/main/res/menu/toolbar_menu.xml" value="0.30925925925925923" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_medicine.xml" value="0.25" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_reminder.xml" value="0.33" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_login_menu.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_medication_menu.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_reminder_menu.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_report_menu.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_sign_up_menu.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_take_dose.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_user_main_menu.xml" value="0.2" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/content_take_dose.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_first.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_second.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/toolbar.xml" value="0.2" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/menu/toolbar_menu.xml" value="0.2" />
       </map>
     </option>
   </component>
@@ -23,5 +26,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.16" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -1,17 +1,30 @@
 package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -24,25 +37,33 @@ public class AddReminder extends AppCompatActivity {
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
+    private int NOTIFICATION_PERMISSION_CODE =1;;
+
+    private Calendar c1=Calendar.getInstance();;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
 
-        homeButton = findViewById(R.id.home_button);
         addThisReminderButton = findViewById(R.id.addthisreminder_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddReminder.this, UserMainMenu.class);
-                startActivity(intent);
-            }
-        });
+        String[] items = new String[]{"Item 1", "Item 2", "Item 3"};
+        Spinner spinner = findViewById(R.id.medicine_option);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adapter);
+//
+//        homeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(AddReminder.this, UserMainMenu.class);
+//                startActivity(intent);
+//            }
+//        });
 
         final Spinner optionSpinner = findViewById(R.id.medicine_option);
         //here is for medicine name that saved in (add medicine) page
@@ -105,9 +126,13 @@ public class AddReminder extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
                                 timeEditText.setText(String.format("%02d:%02d", hourOfDay, minute));
+                                c1.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                                c1.set(Calendar.MINUTE,minute);
+                                c1.set(Calendar.SECOND,0);
                             }
-                        }, hour, minute, true);
+                        }, hour, minute, DateFormat.is24HourFormat(AddReminder.this) );
                 timePickerDialog.show();
             }
         });
@@ -115,7 +140,8 @@ public class AddReminder extends AppCompatActivity {
         addThisReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scheduleAlarm(c1);
+                Log.d("Alarm","Setting");
             }
         });
 
@@ -142,6 +168,62 @@ public class AddReminder extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    private void scheduleAlarm(Calendar c){
+        if(ContextCompat.checkSelfPermission(AddReminder.this, Manifest.permission.POST_NOTIFICATIONS)== PackageManager.PERMISSION_GRANTED)
+        {
+
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
+
+//        if(c.before(Calendar.getInstance())){
+//            c.add(Calendar.DATE,1);
+//        }
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+            Toast.makeText(AddReminder.this,"Reminder Add ",Toast.LENGTH_SHORT).show();
+            Log.d("Reminder", "Reminder Add");
+        }else
+        {
+            requestNotificationPermissions();
+        }
+    }
+
+    private void cancelAlarm()
+    {
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+
+    }
+
+
+    private void requestNotificationPermissions(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.POST_NOTIFICATIONS))
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission Needed")
+                    .setMessage("Notification Permission is needed to notify user the reminder")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(AddReminder.this,new String[]{Manifest.permission.POST_NOTIFICATIONS},NOTIFICATION_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+        }else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.POST_NOTIFICATIONS},NOTIFICATION_PERMISSION_CODE);
+        }
     }
 
 }
