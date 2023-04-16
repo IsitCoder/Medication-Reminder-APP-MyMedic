@@ -106,7 +106,7 @@ public class MedicationMenu extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Volume,Dose,DosageType(DosageName)");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Volume,Dose");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i(TAG, url.toString());

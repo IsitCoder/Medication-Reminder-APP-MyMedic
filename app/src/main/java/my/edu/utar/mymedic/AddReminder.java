@@ -15,20 +15,38 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import my.edu.utar.mymedic.model.medicineDto;
+import my.edu.utar.mymedic.model.reminderMedicineDto;
 
 public class AddReminder extends AppCompatActivity {
 
@@ -40,6 +58,7 @@ public class AddReminder extends AppCompatActivity {
     private int NOTIFICATION_PERMISSION_CODE =1;;
 
     private Calendar c1=Calendar.getInstance();;
+    private ArrayList<reminderMedicineDto> medicines = new ArrayList<reminderMedicineDto>();
 
 
     @Override
@@ -52,20 +71,35 @@ public class AddReminder extends AppCompatActivity {
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
 
-        String[] items = new String[]{"Item 1", "Item 2", "Item 3"};
-        Spinner spinner = findViewById(R.id.medicine_option);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        spinner.setAdapter(adapter);
-//
-//        homeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(AddReminder.this, UserMainMenu.class);
-//                startActivity(intent);
-//            }
-//        });
+        Thread_GetMedicinesName getMedicinesName = new Thread_GetMedicinesName();
+        getMedicinesName.start();
 
-        final Spinner optionSpinner = findViewById(R.id.medicine_option);
+        try {
+            getMedicinesName.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Spinner spinner = findViewById(R.id.medicine_option);
+        ArrayAdapter<reminderMedicineDto> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, medicines);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Handle nothing selected here
+            }
+        });
+
+
         //here is for medicine name that saved in (add medicine) page
 
         final TextInputEditText startDateEditText = findViewById(R.id.start_date);
@@ -223,6 +257,75 @@ public class AddReminder extends AppCompatActivity {
                     }).create().show();
         }else{
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.POST_NOTIFICATIONS},NOTIFICATION_PERMISSION_CODE);
+        }
+    }
+
+    private class Thread_GetMedicinesName extends Thread {
+        private String TAG = "Thread_GetMedicinesName";
+        private int id;
+        private String result;
+        private Handler mHandler;
+
+        public void run() {
+            try {
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Dose");
+                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+
+                Log.i(TAG, url.toString());
+
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
+
+                if(hc.getResponseCode()==200) {
+
+                    InputStream input = hc.getInputStream();
+                    result = readStream(input);
+                    input.close();
+                    Log.i(TAG,"HTTP GET request successful");
+                    Log.i(TAG,"Output"+result);
+
+                    JSONArray InfoArray = new JSONArray(result);
+                    for (int i = 0; i < InfoArray.length(); i++) {
+                        int id = InfoArray.getJSONObject(i).getInt("id");
+                        String mName = InfoArray.getJSONObject(i).getString("MedicineName");
+                        double mDose = InfoArray.getJSONObject(i).getDouble("Dose");
+
+                        reminderMedicineDto medicine = new reminderMedicineDto(id, mName, mDose);
+                        medicines.add(medicine);
+                    }
+
+                } else {
+                    Log.i(TAG, "Response Code: " + hc.getResponseCode());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+            }catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+    private String readStream(InputStream is) {
+        try {
+            ByteArrayOutputStream bo = new
+                    ByteArrayOutputStream();
+            int i = is.read();
+            while (i != -1) {
+                bo.write(i);
+                i = is.read();
+            }
+            return bo.toString();
+        } catch (IOException e) {
+            return "";
         }
     }
 

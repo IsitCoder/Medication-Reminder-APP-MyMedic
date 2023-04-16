@@ -110,7 +110,8 @@
                         android:id="@+id/medicine_option"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#FFFFFF" />
+                        android:background="#FFFFFF"
+                        android:spinnerMode="dialog" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
