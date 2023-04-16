@@ -1,6 +1,7 @@
 package my.edu.utar.mymedic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,14 @@ public class Medicine_RecycleViewAdapter extends RecyclerView.Adapter<Medicine_R
         holder.tvMedicine.setText(medicineDtos.get(position).getMedicineName());
         holder.tvDose.setText("Dose: "+String.format("%.2f", medicineDtos.get(position).getDose()));
         holder.tvVolume.setText("Remaining: "+String.format("%.2f",medicineDtos.get(position).getRemainVolume()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),EditMedicine.class);
+                intent.putExtra("id",medicineDtos.get(holder.getAdapterPosition()).getId());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

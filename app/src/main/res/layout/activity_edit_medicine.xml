@@ -217,10 +217,13 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/initial_volume"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="numberDecimal"/>/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/dosetypeTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -241,6 +244,8 @@
                         android:id="@+id/dose"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="numberDecimal"/>
                         android:hint="volume / quantity per dose"/>
                 </com.google.android.material.textfield.TextInputLayout>
 

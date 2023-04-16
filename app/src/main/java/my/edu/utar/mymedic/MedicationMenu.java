@@ -103,15 +103,10 @@ public class MedicationMenu extends AppCompatActivity {
 
     private class Thread_GetMedicines extends Thread {
         private String TAG = "GetMedicine";
-        private String mName;
-        private String mEmail;
-        private String mPassword;
-
-
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=MedicineName,Volume,Dose,DosageType(DosageName)");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Volume,Dose,DosageType(DosageName)");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i(TAG, url.toString());
@@ -138,8 +133,8 @@ public class MedicationMenu extends AppCompatActivity {
                         String medicineName = InfoArray.getJSONObject(i).get("MedicineName").toString();
                         double volume = InfoArray.getJSONObject(i).getDouble("Volume");
                         double dose = InfoArray.getJSONObject(i).getDouble("Dose");
-
-                        medicineDto m = new medicineDto(medicineName,dose,volume);
+                        int id = InfoArray.getJSONObject(i).getInt("id");
+                        medicineDto m = new medicineDto(id,medicineName,dose,volume);
                         medicineList.add(m);
                     }
 
