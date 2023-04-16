@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_medicine.xml" value="0.25" />
-        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_reminder.xml" value="0.33" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_add_reminder.xml" value="0.25" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_dose_checking.xml" value="0.13903985507246377" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_edit_medicine.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_edit_reminder.xml" value="0.13903985507246377" />
@@ -17,6 +17,7 @@
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_take_dose.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/activity_user_main_menu.xml" value="0.2" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/content_take_dose.xml" value="0.1" />
+        <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/customer_spinner_adapter.xml" value="0.25" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_first.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/fragment_second.xml" value="0.1" />
         <entry key="..\:/Users/60135/AndroidStudioProjects/MyMedic/app/src/main/res/layout/medicine_recycle_view_row.xml" value="0.67" />
@@ -30,12 +31,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.17603850050658562" />
-      </ProjectState>
-    </option>
   </component>
 </project>
