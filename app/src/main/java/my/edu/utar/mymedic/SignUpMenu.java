@@ -227,7 +227,7 @@ public class SignUpMenu extends AppCompatActivity {
                         public void run() {
                             Toast.makeText(getApplicationContext(), "Sign Up Successful",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignUpMenu.this, MainActivity.class);
+                            Intent intent = new Intent(SignUpMenu.this, LoginMenu.class);
                             startActivity(intent);
                         }
                     });
