@@ -16,4 +16,28 @@ public class Reminder {
         this.endDate = endDate;
         this.alarmTime = alarmTime;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getMedicineId() {
+        return medicineId;
+    }
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public String getAlarmTime() {
+        return alarmTime;
+    }
 }

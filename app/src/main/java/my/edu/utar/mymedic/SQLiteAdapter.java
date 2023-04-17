@@ -104,7 +104,7 @@ public class SQLiteAdapter {
         return result;
     }
 
-    public class SQLiteHelper extends SQLiteOpenHelper {
+    public static class SQLiteHelper extends SQLiteOpenHelper {
         public SQLiteHelper(Context context, String name,
                             SQLiteDatabase.CursorFactory factory, int version) {
             super(context, name, factory, version);

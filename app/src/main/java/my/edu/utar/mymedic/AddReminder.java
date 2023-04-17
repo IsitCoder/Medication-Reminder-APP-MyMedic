@@ -14,21 +14,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -45,7 +43,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import my.edu.utar.mymedic.model.medicineDto;
+import my.edu.utar.mymedic.ReminderSQLiteAdapter;
+import my.edu.utar.mymedic.model.Reminder;
 import my.edu.utar.mymedic.model.reminderMedicineDto;
 
 public class AddReminder extends AppCompatActivity {
@@ -55,9 +54,15 @@ public class AddReminder extends AppCompatActivity {
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
-    private int NOTIFICATION_PERMISSION_CODE =1;;
 
-    private Calendar c1=Calendar.getInstance();;
+    private ReminderSQLiteAdapter remindSQLite;
+    private int mid;
+    private String medicineName;
+    private double dose;
+
+    private int NOTIFICATION_PERMISSION_CODE =1;
+
+    private Calendar c1=Calendar.getInstance();
     private ArrayList<reminderMedicineDto> medicines = new ArrayList<reminderMedicineDto>();
 
 
@@ -70,6 +75,11 @@ public class AddReminder extends AppCompatActivity {
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
+
+
+        remindSQLite= new ReminderSQLiteAdapter(this);
+
+
 
         Thread_GetMedicinesName getMedicinesName = new Thread_GetMedicinesName();
         getMedicinesName.start();
@@ -88,9 +98,14 @@ public class AddReminder extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = parent.getItemAtPosition(position).toString();
-                adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+//                String selectedItem = parent.getItemAtPosition(position).toString();
+//                adapter.notifyDataSetChanged();
+                reminderMedicineDto medicine = (reminderMedicineDto) parent.getItemAtPosition(position);
+                mid=medicine.getId();
+                medicineName=medicine.getMedicineName();
+                dose=medicine.getDose();
+                Toast.makeText(getApplicationContext(), "Selected item: " + medicine.toString(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -112,6 +127,7 @@ public class AddReminder extends AppCompatActivity {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddReminder.this,
                         new DatePickerDialog.OnDateSetListener() {
@@ -172,10 +188,25 @@ public class AddReminder extends AppCompatActivity {
         });
 
         addThisReminderButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                scheduleAlarm(c1);
+
+
+                String startDate = startDateEditText.getText().toString();
+                String endDate = endDateEditText.getText().toString();
+                String time = timeEditText.getText().toString();
+
+
+                remindSQLite.open();
+                remindSQLite.insertReminder(mid,medicineName,startDate,endDate,time);
+                Reminder reminder = remindSQLite.getReminderbymid(mid);
+                remindSQLite.close();
+
+                scheduleAlarm(c1,reminder.getId());
                 Log.d("Alarm","Setting");
+                Intent i = new Intent(AddReminder.this,ReminderMenu.class);
+                startActivity(i);
             }
         });
 
@@ -205,14 +236,15 @@ public class AddReminder extends AppCompatActivity {
     }
 
 
-    private void scheduleAlarm(Calendar c){
+    private void scheduleAlarm(Calendar c, int Alarmid){
         if(ContextCompat.checkSelfPermission(AddReminder.this, Manifest.permission.POST_NOTIFICATIONS)== PackageManager.PERMISSION_GRANTED)
         {
 
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlertReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
+            intent.putExtra("key",String.valueOf(Alarmid));
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
 
 //        if(c.before(Calendar.getInstance())){
 //            c.add(Calendar.DATE,1);

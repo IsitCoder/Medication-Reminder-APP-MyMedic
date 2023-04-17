@@ -103,8 +103,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:hint="Select a Medicine">
+                    android:layout_marginRight="16dp">
 
                     <Spinner
                         android:id="@+id/medicine_option"

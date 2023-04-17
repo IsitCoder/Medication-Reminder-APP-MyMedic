@@ -77,17 +77,64 @@ public class ReminderSQLiteAdapter {
         String[] columns = {COLUMN_ID, COLUMN_MEDICINE_ID, COLUMN_MEDICINE_NAME, COLUMN_START_DATE, COLUMN_END_DATE, COLUMN_ALARM_TIME};
         Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-            int medicineId = cursor.getInt(cursor.getColumnIndex(COLUMN_MEDICINE_ID));
-            String medicineName = cursor.getString(cursor.getColumnIndex(COLUMN_MEDICINE_NAME));
-            String startDate = cursor.getString(cursor.getColumnIndex(COLUMN_START_DATE));
-            String endDate = cursor.getString(cursor.getColumnIndex(COLUMN_END_DATE));
-            String alarmTime = cursor.getString(cursor.getColumnIndex(COLUMN_ALARM_TIME));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+            int medicineId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_ID));
+            String medicineName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_NAME));
+            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE));
+            String endDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_END_DATE));
+            String alarmTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TIME));
             Reminder reminder = new Reminder(id, medicineId, medicineName, startDate, endDate, alarmTime);
             reminders.add(reminder);
         }
         cursor.close();
         return reminders;
+    }
+
+    public Reminder getReminder(int key) {
+        Reminder reminder = null;
+        String[] columns = {COLUMN_ID, COLUMN_MEDICINE_ID, COLUMN_MEDICINE_NAME, COLUMN_START_DATE, COLUMN_END_DATE, COLUMN_ALARM_TIME};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_ID+"=?", new String[]{String.valueOf(key)}, null, null, null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+            int medicineId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_ID));
+            String medicineName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_NAME));
+            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE));
+            String endDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_END_DATE));
+            String alarmTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TIME));
+            reminder = new Reminder(id, medicineId, medicineName, startDate, endDate, alarmTime);
+
+        }
+        cursor.close();
+        return reminder;
+    }
+
+    public Reminder getReminderbymid(int key) {
+        Reminder reminder = null;
+        String[] columns = {COLUMN_ID, COLUMN_MEDICINE_ID, COLUMN_MEDICINE_NAME, COLUMN_START_DATE, COLUMN_END_DATE, COLUMN_ALARM_TIME};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_MEDICINE_ID+"=?", new String[]{String.valueOf(key)}, null, null, null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+            int medicineId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_ID));
+            String medicineName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_NAME));
+            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_START_DATE));
+            String endDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_END_DATE));
+            String alarmTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ALARM_TIME));
+            reminder = new Reminder(id, medicineId, medicineName, startDate, endDate, alarmTime);
+
+        }
+        cursor.close();
+        return reminder;
+    }
+
+    public void updateReminder(int id, int medicineId, String medicineName, String startDate, String endDate, String alarmTime) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_MEDICINE_ID, medicineId);
+        values.put(COLUMN_MEDICINE_NAME, medicineName);
+        values.put(COLUMN_START_DATE, startDate);
+        values.put(COLUMN_END_DATE, endDate);
+        values.put(COLUMN_ALARM_TIME, alarmTime);
+        String[] whereArgs = {String.valueOf(id)};
+        db.update(TABLE_NAME, values,COLUMN_ID+"=?", whereArgs);
     }
 
 }

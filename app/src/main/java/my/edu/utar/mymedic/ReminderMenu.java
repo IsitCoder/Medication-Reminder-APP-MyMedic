@@ -1,6 +1,8 @@
 package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import my.edu.utar.mymedic.model.Reminder;
+
 public class ReminderMenu extends AppCompatActivity {
 
     private ImageButton homeButton;
@@ -19,6 +25,8 @@ public class ReminderMenu extends AppCompatActivity {
     private ImageButton medicationButton;
     private ImageButton reminderButton;
     private ImageButton reportButton;
+    private ReminderSQLiteAdapter remindSQLite;
+    private ArrayList<Reminder> reminders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,19 @@ public class ReminderMenu extends AppCompatActivity {
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
+
+
+        remindSQLite= new ReminderSQLiteAdapter(this);
+        remindSQLite.open();
+        reminders = remindSQLite.getAllReminders();
+        remindSQLite.close();
+
+        RecyclerView recyclerView = findViewById(R.id.addreminder_recycleView);
+        Reminder_RecycleViewAdapter adapter = new Reminder_RecycleViewAdapter(ReminderMenu.this,reminders);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ReminderMenu.this));
+        Toast.makeText(getApplicationContext(), "Load successfully", Toast.LENGTH_SHORT).show();
+
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override

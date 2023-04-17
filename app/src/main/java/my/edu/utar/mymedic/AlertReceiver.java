@@ -12,11 +12,14 @@ public class AlertReceiver extends BroadcastReceiver {
 
         Intent i = new Intent(context,TakeDose.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,i,PendingIntent.FLAG_IMMUTABLE);
+        String key = intent.getStringExtra("key");
+        int reqCode = Integer.parseInt(key);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,reqCode,i,PendingIntent.FLAG_IMMUTABLE);
 
         NotificationHelper notificationHelper = new NotificationHelper(context);
         NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
         nb.setContentIntent(pendingIntent);
+        nb.setContentText(key);
         notificationHelper.getManager().notify(1,nb.build());
     }
 }
