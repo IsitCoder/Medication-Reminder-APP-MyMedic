@@ -124,6 +124,26 @@ public class LoginMenu extends AppCompatActivity {
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i("LoginMenu", url.toString());
+                if(hc.getResponseCode() == 401)
+                {
+                    handler_alert.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            builder_alert.setTitle("Error");
+                            builder_alert.setMessage("The email or password entered is wrong ! \n Please try again.");
+                            builder_alert.setCancelable(false);
+                            builder_alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            Login_alert = builder_alert.create();
+                            Login_alert.show();
+                        }
+                    });
+                    return;
+                }
 
                 hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
                 hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
@@ -145,7 +165,7 @@ public class LoginMenu extends AppCompatActivity {
                                 user_SQLite.insert(username_table, email_table, password_table);
                                 user_SQLite.close();
 
-                                Toast.makeText(getApplicationContext(), "Login Successful",
+                                Toast.makeText(getApplicationContext(), "Login Successful ! Welcome " + user_SQLite.welcome() + " !",
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginMenu.this, UserMainMenu.class);
                                 startActivity(intent);
