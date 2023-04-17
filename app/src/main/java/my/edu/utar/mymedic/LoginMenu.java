@@ -124,6 +124,10 @@ public class LoginMenu extends AppCompatActivity {
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i("LoginMenu", url.toString());
+
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+
                 if(hc.getResponseCode() == 401)
                 {
                     handler_alert.post(new Runnable() {
@@ -145,9 +149,6 @@ public class LoginMenu extends AppCompatActivity {
                     return;
                 }
 
-                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
-                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
-
                 InputStream input = hc.getInputStream();
                 String result = readStream(input);
 
@@ -163,11 +164,12 @@ public class LoginMenu extends AppCompatActivity {
                                 user_SQLite.openToWrite();
                                 user_SQLite.deleteAll();
                                 user_SQLite.insert(username_table, email_table, password_table);
-                                user_SQLite.close();
 
-                                Toast.makeText(getApplicationContext(), "Login Successful ! Welcome " + user_SQLite.welcome() + " !",
+
+                                Toast.makeText(getApplicationContext(), "Login Successful !\nWelcome " + user_SQLite.welcome() + " !",
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginMenu.this, UserMainMenu.class);
+                                user_SQLite.close();
                                 startActivity(intent);
                             }
                         });
