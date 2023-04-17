@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "You had login before this.\nWelcome "
                             + user_SQLite.welcome() + " !", Toast.LENGTH_SHORT).show();
+            user_SQLite.close();
             Intent intent = new Intent(MainActivity.this, UserMainMenu.class);
             startActivity(intent);
         }
+        user_SQLite.close();
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
