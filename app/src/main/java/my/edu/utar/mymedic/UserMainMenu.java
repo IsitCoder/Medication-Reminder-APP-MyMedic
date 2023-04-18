@@ -33,6 +33,8 @@ public class UserMainMenu extends AppCompatActivity {
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
 
+
+
         /*setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -76,9 +78,46 @@ public class UserMainMenu extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            // Handle settings button click
-            return true;
+        SQLiteAdapter user_SQLite;
+        user_SQLite = new SQLiteAdapter(this);
+        user_SQLite.openToWrite();
+
+            if (id == R.id.logout)
+            {
+                AlertDialog.Builder builder_logout = new AlertDialog.Builder(this);
+                AlertDialog.Builder logout_success = new AlertDialog.Builder(this);
+                builder_logout.setTitle("Logout");
+                builder_logout.setMessage("Are you sure you want to logout?");
+                builder_logout.setCancelable(false);
+                builder_logout.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        user_SQLite.deleteAll();
+                        user_SQLite.close();
+                        logout_success.setTitle("Success");
+                        logout_success.setMessage("Logout Successful !");
+                        logout_success.setCancelable(false);
+                        logout_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(UserMainMenu.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        logout_success.show();
+                    }
+                });
+                builder_logout.setNegativeButton("No", null);
+                builder_logout.show();
+                return true;
+            }
+
+            if (id == R.id.change_password)
+            {
+                Intent intent = new Intent(UserMainMenu.this, ChangePassword.class);
+                startActivity(intent);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -93,8 +132,9 @@ public class UserMainMenu extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
-                System.exit(0);
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         });
         builder.setNegativeButton("No", null);

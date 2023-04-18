@@ -104,6 +104,22 @@ public class SQLiteAdapter {
         return result;
     }
 
+    public String getEmail() {
+        String[] columns = new String[]{KEY_CONTENT2};
+        Cursor cursor = sqLiteDatabase.query(MYDATABASE_TABLE, columns,
+                null, null, null, null, null);
+        String result = "";
+        int i = 0;
+        int index_CONTENT_1 = cursor.getColumnIndex(KEY_CONTENT2);
+        for (cursor.moveToFirst(); !(cursor.isAfterLast());
+             cursor.moveToNext()) {
+            result = cursor.getString(index_CONTENT_1);
+            i++;
+        }
+        return result;
+    }
+
+
     public static class SQLiteHelper extends SQLiteOpenHelper {
         public SQLiteHelper(Context context, String name,
                             SQLiteDatabase.CursorFactory factory, int version) {

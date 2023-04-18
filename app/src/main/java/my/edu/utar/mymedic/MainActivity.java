@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "You had login before this.\nWelcome "
                             + user_SQLite.welcome() + " !", Toast.LENGTH_SHORT).show();
+            user_SQLite.close();
             Intent intent = new Intent(MainActivity.this, UserMainMenu.class);
             startActivity(intent);
         }
+        user_SQLite.close();
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
-                System.exit(0);
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         });
         builder.setNegativeButton("No", null);
