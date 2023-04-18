@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="my.edu.utar.mymedic" >
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -16,9 +15,6 @@
         android:theme="@style/Theme.MyMedic" >
         <activity
             android:name=".ChangePassword"
-            android:exported="false" />
-        <activity
-            android:name=".TakeDose"
             android:exported="false" />
         <activity
             android:name=".DoseChecking"
@@ -67,13 +63,6 @@
         </activity>
 
         <receiver android:name=".AlertReceiver" />
-        <receiver
-            android:name=".BootReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

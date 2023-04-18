@@ -281,8 +281,6 @@ public class EditReminder extends AppCompatActivity {
     private void scheduleAlarm(Calendar c, int Alarmid){
         if(ContextCompat.checkSelfPermission(EditReminder.this, Manifest.permission.POST_NOTIFICATIONS)== PackageManager.PERMISSION_GRANTED)
         {
-
-
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlertReceiver.class);
             intent.putExtra("medicineName",String.valueOf(medicineName));
