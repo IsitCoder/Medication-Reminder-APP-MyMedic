@@ -1,5 +1,6 @@
 package my.edu.utar.mymedic;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -207,9 +208,9 @@ public class EditReminder extends AppCompatActivity {
                 }else{
                     Toast.makeText(EditReminder.this,"Reminder Updated ",Toast.LENGTH_SHORT).show();
                     Log.d("Reminder", "Reminder Updated without rescheduled alarm");
+                    Intent i = new Intent(EditReminder.this,ReminderMenu.class);
+                    startActivity(i);
                 }
-                Intent i = new Intent(EditReminder.this,ReminderMenu.class);
-                startActivity(i);
             }
         });
 
@@ -297,10 +298,24 @@ public class EditReminder extends AppCompatActivity {
 //        }
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
             Toast.makeText(EditReminder.this,"Reminder Updated ",Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(EditReminder.this,ReminderMenu.class);
+            startActivity(i);
             Log.d("Reminder", "Reminder Updated");
         }else
         {
             requestNotificationPermissions();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

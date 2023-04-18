@@ -3,11 +3,10 @@ package my.edu.utar.mymedic;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
 
 import my.edu.utar.mymedic.model.Reminder;
@@ -37,7 +36,7 @@ public class ReminderSQLiteAdapter {
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     private SQLiteDatabase db;
-    private SQLiteOpenHelper dbHelper;
+    private final SQLiteOpenHelper dbHelper;
 
     public ReminderSQLiteAdapter(Context context) {
         dbHelper = new SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -62,14 +61,14 @@ public class ReminderSQLiteAdapter {
         db.close();
     }
 
-    public long insertReminder(int medicineId, String medicineName, String startDate, String endDate, String alarmTime) {
+    public void insertReminder(int medicineId, String medicineName, String startDate, String endDate, String alarmTime) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_MEDICINE_ID, medicineId);
         values.put(COLUMN_MEDICINE_NAME, medicineName);
         values.put(COLUMN_START_DATE, startDate);
         values.put(COLUMN_END_DATE, endDate);
         values.put(COLUMN_ALARM_TIME, alarmTime);
-        return db.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_NAME, null, values);
     }
 
     public ArrayList<Reminder> getAllReminders() {
@@ -111,7 +110,7 @@ public class ReminderSQLiteAdapter {
     public Reminder getReminderbymid(int key,String time) {
         Reminder reminder = null;
         String[] columns = {COLUMN_ID, COLUMN_MEDICINE_ID, COLUMN_MEDICINE_NAME, COLUMN_START_DATE, COLUMN_END_DATE, COLUMN_ALARM_TIME};
-        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_MEDICINE_ID+"=? && "+COLUMN_ALARM_TIME+"=?", new String[]{String.valueOf(key),time}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_MEDICINE_ID+"=? AND "+COLUMN_ALARM_TIME+"=?", new String[]{String.valueOf(key),time}, null, null, null);
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
             int medicineId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_ID));
