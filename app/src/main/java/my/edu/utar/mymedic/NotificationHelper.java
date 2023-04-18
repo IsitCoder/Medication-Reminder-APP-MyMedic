@@ -42,10 +42,11 @@ public class NotificationHelper extends ContextWrapper {
 
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle("Medicine reminder")
-                .setContentText("Time to eat your medicine")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setDefaults(NotificationManager.IMPORTANCE_DEFAULT)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(false)
+                .setOngoing(true);
 
     }
 }

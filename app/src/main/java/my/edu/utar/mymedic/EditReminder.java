@@ -284,7 +284,12 @@ public class EditReminder extends AppCompatActivity {
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlertReceiver.class);
-            intent.putExtra("key",String.valueOf(Alarmid));
+            intent.putExtra("medicineName",String.valueOf(medicineName));
+            intent.putExtra("key",Alarmid);
+            intent.putExtra("dose",dose);
+            intent.putExtra("mid",mid);
+
+
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
 
 //        if(c.before(Calendar.getInstance())){

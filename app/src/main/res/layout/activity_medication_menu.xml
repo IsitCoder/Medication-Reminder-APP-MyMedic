@@ -41,7 +41,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addmedicine_recycleView"
                 android:layout_width="match_parent"
-                android:layout_height="406dp" />
+                android:layout_height="359dp" />
 
             <ImageButton
                 android:id="@+id/addmedicine_button"

@@ -108,10 +108,10 @@ public class ReminderSQLiteAdapter {
         return reminder;
     }
 
-    public Reminder getReminderbymid(int key) {
+    public Reminder getReminderbymid(int key,String time) {
         Reminder reminder = null;
         String[] columns = {COLUMN_ID, COLUMN_MEDICINE_ID, COLUMN_MEDICINE_NAME, COLUMN_START_DATE, COLUMN_END_DATE, COLUMN_ALARM_TIME};
-        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_MEDICINE_ID+"=?", new String[]{String.valueOf(key)}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_MEDICINE_ID+"=? && "+COLUMN_ALARM_TIME+"=?", new String[]{String.valueOf(key),time}, null, null, null);
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
             int medicineId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MEDICINE_ID));

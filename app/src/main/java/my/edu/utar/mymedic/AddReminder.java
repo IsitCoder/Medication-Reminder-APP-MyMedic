@@ -10,11 +10,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -200,7 +200,7 @@ public class AddReminder extends AppCompatActivity {
 
                 remindSQLite.open();
                 remindSQLite.insertReminder(mid,medicineName,startDate,endDate,time);
-                Reminder reminder = remindSQLite.getReminderbymid(mid);
+                Reminder reminder = remindSQLite.getReminderbymid(mid,time);
                 remindSQLite.close();
 
                 scheduleAlarm(c1,reminder.getId());
@@ -237,13 +237,17 @@ public class AddReminder extends AppCompatActivity {
 
 
     private void scheduleAlarm(Calendar c, int Alarmid){
+
+
         if(ContextCompat.checkSelfPermission(AddReminder.this, Manifest.permission.POST_NOTIFICATIONS)== PackageManager.PERMISSION_GRANTED)
         {
 
-
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlertReceiver.class);
-            intent.putExtra("key",String.valueOf(Alarmid));
+            intent.putExtra("medicineName",String.valueOf(medicineName));
+            intent.putExtra("key",Alarmid);
+            intent.putExtra("dose",dose);
+            intent.putExtra("mid",mid);;
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
 
 //        if(c.before(Calendar.getInstance())){
@@ -258,10 +262,10 @@ public class AddReminder extends AppCompatActivity {
         }
     }
 
-    private void cancelAlarm()
+    private void cancelAlarm(int Alarmid)
     {
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
