@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -45,13 +50,14 @@ public class EditMedicine extends AppCompatActivity {
     private TextInputEditText initialVolume;
     private TextInputEditText dose;
     private int mType;
-
+    private int key;
+    private Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_medicine);
 
-        Handler handler = new Handler();
+        handler = new Handler();
 
         homeButton = findViewById(R.id.home_button);
         saveThisMedicineButton = findViewById(R.id.savethismedicine_button);
@@ -107,7 +113,7 @@ public class EditMedicine extends AppCompatActivity {
         //write info back to edit text
 
         Intent intent = getIntent();
-        int key = intent.getIntExtra("id",-1);
+        key = intent.getIntExtra("id",-1);
 
         if(key<0){
             Intent i = new Intent(getApplicationContext(),MedicationMenu.class);
@@ -197,7 +203,124 @@ public class EditMedicine extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_delete, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+
+        if (id == R.id.delete)
+        {
+            AlertDialog.Builder builder_logout = new AlertDialog.Builder(this);
+            AlertDialog.Builder delete_success = new AlertDialog.Builder(this);
+            builder_logout.setTitle("Delete");
+            builder_logout.setMessage("Are you sure to delete this reminder?");
+            builder_logout.setCancelable(false);
+            builder_logout.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Thread_DeleteMedicine deleteMedicine = new Thread_DeleteMedicine(key, handler);
+                    deleteMedicine.start();
+
+                    try {
+                        deleteMedicine.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    delete_success.setTitle("Success");
+                    delete_success.setMessage("Delete Successful !");
+                    delete_success.setCancelable(false);
+                    delete_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(EditMedicine.this, MedicationMenu.class);
+                            startActivity(intent);
+                        }
+                    });
+                    delete_success.show();
+                }
+            });
+            builder_logout.setNegativeButton("No", null);
+            builder_logout.show();
+            return true;
+        }
+
+        if (id == R.id.menu)
+        {
+            Intent intent = new Intent(EditMedicine.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class Thread_DeleteMedicine extends Thread {
+        private String mName;
+        private int mdType;
+        private double mQuantity;
+        private double mDose;
+        private Handler mHandler;
+        private String TAG="Thread_DeleteMedicine";
+        private int id;
+
+        public Thread_DeleteMedicine(int id,Handler handler) {
+            this.id = id;
+            this.mHandler = handler;
+        }
+
+        public void run() {
+            try {
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?id=eq."+id);
+                HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+
+                Log.i(TAG, url.toString());
+
+
+                hc.setRequestMethod("DELETE");
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
+                hc.setDoOutput(true);
+                OutputStream output = hc.getOutputStream();
+                output.flush();
+
+
+                if (hc.getResponseCode() == 204) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Medicine Delete Successful",
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EditMedicine.this, MedicationMenu.class);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    Log.i(TAG, "Response Code: " + hc.getResponseCode());
+                    int reponseCode = hc.getResponseCode();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Error code: "+reponseCode, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                output.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
 
     private class Thread_UpdateMedicine extends Thread {

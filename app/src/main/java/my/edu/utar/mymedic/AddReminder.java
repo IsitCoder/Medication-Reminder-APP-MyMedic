@@ -1,6 +1,9 @@
 package my.edu.utar.mymedic;
 
-import androidx.annotation.NonNull;
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,6 +50,7 @@ import my.edu.utar.mymedic.model.Reminder;
 import my.edu.utar.mymedic.model.reminderMedicineDto;
 
 public class AddReminder extends AppCompatActivity {
+    private int alarmid =0;
 
     private Button addThisReminderButton;
     private ImageButton medicationButton;
@@ -181,6 +185,7 @@ public class AddReminder extends AppCompatActivity {
             }
         });
 
+
         addThisReminderButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -191,12 +196,11 @@ public class AddReminder extends AppCompatActivity {
                 String endDate = endDateEditText.getText().toString();
                 String time = timeEditText.getText().toString();
 
-
                 remindSQLite.open();
                 remindSQLite.insertReminder(mid,medicineName,startDate,endDate,time);
                 Reminder reminder = remindSQLite.getReminderbymid(mid,time);
                 remindSQLite.close();
-
+                alarmid =reminder.getId();
                 scheduleAlarm(c1,reminder.getId());
 
             }
@@ -229,44 +233,19 @@ public class AddReminder extends AppCompatActivity {
 
 
 
-    private void scheduleAlarm(Calendar c, int Alarmid){
+    private void scheduleAlarm(Calendar c, int Alarmid) {
+        if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            setAlarm(c,Alarmid);
 
 
-        if(ContextCompat.checkSelfPermission(AddReminder.this, Manifest.permission.POST_NOTIFICATIONS)== PackageManager.PERMISSION_GRANTED)
-        {
-
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, AlertReceiver.class);
-            intent.putExtra("medicineName",String.valueOf(medicineName));
-            intent.putExtra("key",Alarmid);
-            intent.putExtra("dose",dose);
-            intent.putExtra("mid",mid);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
-
-//        if(c.before(Calendar.getInstance())){
-//            c.add(Calendar.DATE,1);
-//        }
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-            Toast.makeText(AddReminder.this,"Reminder Add ",Toast.LENGTH_SHORT).show();
-            Log.d("Reminder", "Reminder Add");
-            Intent i = new Intent(AddReminder.this,ReminderMenu.class);
-            startActivity(i);
-        }else
-        {
-            requestNotificationPermissions();
-        }
-    }
-
-    private void requestNotificationPermissions(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.POST_NOTIFICATIONS))
-        {
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, POST_NOTIFICATIONS)) {
             new AlertDialog.Builder(this)
                     .setTitle("Permission Needed")
                     .setMessage("Notification Permission is needed to notify user the reminder")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(AddReminder.this,new String[]{Manifest.permission.POST_NOTIFICATIONS},NOTIFICATION_PERMISSION_CODE);
+                                    ActivityCompat.requestPermissions(AddReminder.this, new String[] { POST_NOTIFICATIONS }, NOTIFICATION_PERMISSION_CODE);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -275,23 +254,62 @@ public class AddReminder extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     }).create().show();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.POST_NOTIFICATIONS},NOTIFICATION_PERMISSION_CODE);
+
+        } else {
+            // You can directly ask for the permission.
+            // The registered ActivityResultCallback gets the result of this request.
+           requestPermissionLauncher.launch(POST_NOTIFICATIONS);
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
+//
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    setAlarm(c1,alarmid);
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Permission Needed")
+                            .setMessage("Notification Permission is needed to notify user the reminder")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(AddReminder.this, new String[] { POST_NOTIFICATIONS }, NOTIFICATION_PERMISSION_CODE);
+                                }
+                            })
+                            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).create().show();
+                }
+
+
+            });
+
+
+
+    private void setAlarm(Calendar c,int Alarmid){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        intent.putExtra("medicineName", String.valueOf(medicineName));
+        intent.putExtra("key", Alarmid);
+        intent.putExtra("dose", dose);
+        intent.putExtra("mid", mid);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
+
+//        if(c.before(Calendar.getInstance())){
+//            c.add(Calendar.DATE,1);
+//        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        Toast.makeText(AddReminder.this, "Reminder Add ", Toast.LENGTH_SHORT).show();
+        Log.d("Reminder", "Reminder Add");
+        Intent i = new Intent(AddReminder.this, ReminderMenu.class);
+        startActivity(i);
+    }
 
     private void cancelAlarm(int Alarmid)
     {
@@ -302,6 +320,7 @@ public class AddReminder extends AppCompatActivity {
         alarmManager.cancel(pendingIntent);
 
     }
+
 
 
 

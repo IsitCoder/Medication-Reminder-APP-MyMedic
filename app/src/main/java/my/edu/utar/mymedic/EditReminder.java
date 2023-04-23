@@ -19,6 +19,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -276,6 +279,76 @@ public class EditReminder extends AppCompatActivity {
         }
 
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_delete, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+
+        if (id == R.id.delete)
+        {
+            AlertDialog.Builder builder_logout = new AlertDialog.Builder(this);
+            AlertDialog.Builder delete_success = new AlertDialog.Builder(this);
+            builder_logout.setTitle("Delete");
+            builder_logout.setMessage("Are you sure to delete this reminder?");
+            builder_logout.setCancelable(false);
+            builder_logout.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    remindSQLite= new ReminderSQLiteAdapter(EditReminder.this);
+                    remindSQLite.open();
+                    int deletesuccess=remindSQLite.deleteReminder(key);
+                    remindSQLite.close();
+                    if(deletesuccess>0) {
+                        delete_success.setTitle("Success");
+                        delete_success.setMessage("Delete Successful !");
+                        delete_success.setCancelable(false);
+                        delete_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(EditReminder.this, ReminderMenu.class);
+                                startActivity(intent);
+                            }
+                        });
+                        delete_success.show();
+                    }else{
+                        delete_success.setTitle("Error");
+                        delete_success.setMessage("Failed to delete!");
+                        delete_success.setCancelable(false);
+                        delete_success.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(EditReminder.this, ReminderMenu.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
+            });
+            builder_logout.setNegativeButton("No", null);
+            builder_logout.show();
+            return true;
+        }
+
+        if (id == R.id.menu)
+        {
+            Intent intent = new Intent(EditReminder.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void scheduleAlarm(Calendar c, int Alarmid){

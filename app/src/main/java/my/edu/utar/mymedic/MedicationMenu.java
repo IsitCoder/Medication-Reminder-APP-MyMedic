@@ -101,6 +101,8 @@ public class MedicationMenu extends AppCompatActivity {
     }
 
 
+
+
     private class Thread_GetMedicines extends Thread {
         private String TAG = "GetMedicine";
 

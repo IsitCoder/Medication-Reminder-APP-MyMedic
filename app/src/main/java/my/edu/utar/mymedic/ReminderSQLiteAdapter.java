@@ -136,4 +136,8 @@ public class ReminderSQLiteAdapter {
         db.update(TABLE_NAME, values,COLUMN_ID+"=?", whereArgs);
     }
 
+    public int deleteReminder(int id) {
+        return db.delete(TABLE_NAME, COLUMN_ID+"=?", new String[]{String.valueOf(id)});
+    }
+
 }
