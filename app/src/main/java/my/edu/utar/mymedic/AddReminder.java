@@ -18,11 +18,15 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -61,6 +65,7 @@ public class AddReminder extends AppCompatActivity {
     private int mid;
     private String medicineName;
     private double dose;
+    private int userid;
 
     private final int NOTIFICATION_PERMISSION_CODE =1;
 
@@ -80,7 +85,12 @@ public class AddReminder extends AppCompatActivity {
 
         remindSQLite= new ReminderSQLiteAdapter(this);
 
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
+        // Retrieve a boolean value with key "userid"
+        userid = preferences.getInt("Userid",-1);
+
+        // Load the medicines data from supabase API
 
         Thread_GetMedicinesName getMedicinesName = new Thread_GetMedicinesName();
         getMedicinesName.start();
@@ -262,6 +272,28 @@ public class AddReminder extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_delete, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu)
+        {
+            Intent intent = new Intent(AddReminder.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 //
 
@@ -299,6 +331,7 @@ public class AddReminder extends AppCompatActivity {
         intent.putExtra("key", Alarmid);
         intent.putExtra("dose", dose);
         intent.putExtra("mid", mid);
+        intent.putExtra("userid",userid);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
 
 //        if(c.before(Calendar.getInstance())){
@@ -330,10 +363,14 @@ public class AddReminder extends AppCompatActivity {
         private int id;
         private String result;
         private Handler mHandler;
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Retrieve a boolean value with key "userid"
+        int userid = preferences.getInt("Userid",-1);
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Dose");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?UserId=eq."+userid+"&select=id,MedicineName,Dose");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i(TAG, url.toString());

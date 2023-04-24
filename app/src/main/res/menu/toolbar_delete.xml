@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_delete"
-        android:icon="@drawable/optionmenu"
-        android:title="Settings"
-        android:orderInCategory="100"
-        app:showAsAction="always" >
-        <menu>
-            <item
-                android:id="@+id/delete"
-                android:title="Delete" />
-            <item
-                android:id="@+id/menu"
-                android:title="Home" />
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete"
+        app:showAsAction="ifRoom"/>
 
-        </menu>
-    </item>
+    <item
+        android:id="@+id/menu"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="Log out" />
+
+
 </menu>

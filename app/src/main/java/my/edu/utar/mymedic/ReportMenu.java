@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,14 +74,6 @@ public class ReportMenu extends AppCompatActivity {
         list.setAdapter(adapter);
 
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ReportMenu.this, UserMainMenu.class);
-                startActivity(intent);
-            }
-        });
-
         medicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +112,7 @@ public class ReportMenu extends AppCompatActivity {
         {
             //If it is the start of a new section we create a new listcell and add it to our array
             if(!(header.equals(itemList.get(i).getDate()))) {
-                ItemModel sectionCell = new ItemModel(null, null,null,itemList.get(i).getDate());
+                ItemModel sectionCell = new ItemModel(null, null,null,itemList.get(i).getDate(),false);
                 sectionCell.setToSectionHeader();
                 tempList.add(sectionCell);
                 header = itemList.get(i).getDate();
@@ -157,12 +151,23 @@ public class ReportMenu extends AppCompatActivity {
                 v = inflater.inflate((R.layout.row_item), null);
                 TextView tv_item = (TextView) v.findViewById(R.id.tv_item);
                 TextView tv_time = (TextView) v.findViewById(R.id.tv_time);
-
                 TextView tv_dose = (TextView) v.findViewById(R.id.tv_dose);
+                TextView tv_taken = (TextView) v.findViewById(R.id.tv_taken);
+
+                if(cell.isItemTaken())
+                {
+                    tv_taken.setText("Taken");
+                }else
+                {
+                    tv_taken.setText("Miss");
+                    tv_taken.setTextColor(getColor(R.color.red));
+                }
+                //TextView tv_taken = (TextView) v.findViewById(R.id.tv_taken);
 
                 tv_item.setText(cell.getItemName());
                 tv_time.setText(cell.getItemTime());
                 tv_dose.setText(cell.getItemDose());
+               // tv_taken
 
 
             }
@@ -172,11 +177,17 @@ public class ReportMenu extends AppCompatActivity {
 
 
         private class Thread_GetReport extends Thread {
+
             private String TAG = "GetReport";
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+            // Retrieve a boolean value with key "userid"
+            int userid = preferences.getInt("Userid",-1);
+
 
             public void run() {
                 try {
-                    URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Report?select=DateTaken,TimeTaken,Medicine(MedicineName,Dose)");
+                    URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Report?UserId=eq."+userid+"&select=DateTaken,TimeTaken,TakenStatus,Medicine(MedicineName,Dose)");
                     HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                     Log.i(TAG, url.toString());
@@ -204,8 +215,9 @@ public class ReportMenu extends AppCompatActivity {
                             String time = InfoArray.getJSONObject(i).getString("TimeTaken");
                             String date = InfoArray.getJSONObject(i).getString("DateTaken");
                             String dose = InfoArray.getJSONObject(i).getJSONObject("Medicine").getString("Dose")+" dose";
+                            boolean taken = InfoArray.getJSONObject(i).getBoolean("TakenStatus");
 
-                            ItemModel item = new ItemModel(time,name,dose,date);
+                            ItemModel item = new ItemModel(time,name,dose,date,taken);
                             itemsList.add(item);
                         }
                         runOnUiThread(new Runnable() {

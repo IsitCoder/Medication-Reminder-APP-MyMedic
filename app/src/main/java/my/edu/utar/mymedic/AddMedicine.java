@@ -2,14 +2,19 @@ package my.edu.utar.mymedic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -54,6 +59,46 @@ public class AddMedicine extends AppCompatActivity {
     private double mDose;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_delete, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+
+        if (id == R.id.menu)
+        {
+            item.setTitle("Back to menu");
+            AlertDialog.Builder LeaveActivity = new AlertDialog.Builder(this);
+            AlertDialog.Builder delete_success = new AlertDialog.Builder(this);
+            LeaveActivity.setTitle("Leave Confirm");
+            LeaveActivity.setMessage("Are you sure leave add medicine?");
+            LeaveActivity.setCancelable(false);
+            LeaveActivity.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            LeaveActivity.setNegativeButton("No", null);
+            LeaveActivity.show();
+            return true;
+        }
+
+        if (id == R.id.delete)
+        {
+            item.setVisible(false);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine);
@@ -73,14 +118,6 @@ public class AddMedicine extends AppCompatActivity {
         initialVolume = findViewById(R.id.initial_volume);
         dose = findViewById(R.id.dose);
         TextView dosetypeTv = findViewById(R.id.dosetype);
-
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddMedicine.this, UserMainMenu.class);
-                startActivity(intent);
-            }
-        });
 
         tabletButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +218,9 @@ public class AddMedicine extends AppCompatActivity {
     }
 
 
+
+
+
     private class Thread_AddMedicine extends Thread {
         private String mName;
         private int mType;
@@ -188,6 +228,12 @@ public class AddMedicine extends AppCompatActivity {
         private double mDose;
         private Handler mHandler;
         private String TAG="AddMedicine";
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Retrieve a boolean value with key "userid"
+        int userid = preferences.getInt("Userid",-1);
+
+
 
         public Thread_AddMedicine(String mName, int mType,double mQuantity, double mDose, Handler handler) {
             this.mName = mName;
@@ -199,7 +245,7 @@ public class AddMedicine extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?UserId=eq."+userid+"&select=*");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i("AddMedicine", url.toString());
@@ -217,6 +263,7 @@ public class AddMedicine extends AppCompatActivity {
                 info.put("Volume", mQuantity);
                 info.put("Dose", mDose);
                 info.put("DosageTypeId", mType);
+                info.put("UserId",userid);
                 output.write(info.toString().getBytes());
                 output.flush();
 

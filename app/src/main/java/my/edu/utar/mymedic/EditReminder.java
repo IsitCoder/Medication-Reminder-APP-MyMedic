@@ -309,6 +309,7 @@ public class EditReminder extends AppCompatActivity {
                     remindSQLite.open();
                     int deletesuccess=remindSQLite.deleteReminder(key);
                     remindSQLite.close();
+                    cancelAlarm(key);
                     if(deletesuccess>0) {
                         delete_success.setTitle("Success");
                         delete_success.setMessage("Delete Successful !");
@@ -390,10 +391,10 @@ public class EditReminder extends AppCompatActivity {
         }
     }
 
-    private void cancelAlarm()
+    private void cancelAlarm(int reqcode)
     {
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reqcode, intent, PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);

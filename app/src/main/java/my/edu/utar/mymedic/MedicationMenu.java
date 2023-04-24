@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -103,12 +104,16 @@ public class MedicationMenu extends AppCompatActivity {
 
 
 
-    private class Thread_GetMedicines extends Thread {
+    public class Thread_GetMedicines extends Thread {
         private String TAG = "GetMedicine";
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Retrieve a boolean value with key "userid"
+        int userid = preferences.getInt("Userid",-1);
 
         public void run() {
             try {
-                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?select=id,MedicineName,Volume,Dose");
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Medicine?UserId=eq."+userid+"&select=id,MedicineName,Volume,Dose");
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i(TAG, url.toString());

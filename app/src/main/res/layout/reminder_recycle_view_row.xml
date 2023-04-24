@@ -12,7 +12,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="@color/blue"
+        app:cardBackgroundColor="@color/royalblue"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,41 +26,52 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="47dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="32dp"
+                android:layout_width="26dp"
+                android:layout_height="59dp"
+                android:layout_marginStart="28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.473"
                 app:srcCompat="@drawable/ic_baseline_alarm_24" />
 
             <TextView
                 android:id="@+id/reminderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:text="Reminder"
                 android:textColor="@color/white2"
                 android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.182"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.25" />
+                app:layout_constraintHorizontal_bias="0.135"
+                app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
             <TextView
                 android:id="@+id/reminderTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="72dp"
+                android:layout_marginEnd="128dp"
                 android:text="Time"
                 android:textColor="@color/white2"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/reminderName"
-                app:layout_constraintVertical_bias="0.461" />
+                app:layout_constraintVertical_bias="0.304" />
+
+            <Switch
+                android:id="@+id/AlarmStatus"
+                android:layout_width="85dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.368"
+                app:layout_constraintStart_toEndOf="@+id/reminderTime"
+                app:layout_constraintTop_toTopOf="@+id/reminderName" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

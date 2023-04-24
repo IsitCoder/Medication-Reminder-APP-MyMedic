@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,7 +38,6 @@ import my.edu.utar.mymedic.model.medicineDto;
 
 public class EditMedicine extends AppCompatActivity {
 
-    private ImageButton homeButton;
     private Button saveThisMedicineButton;
     private ImageButton medicationButton;
     private ImageButton reminderButton;
@@ -59,7 +59,6 @@ public class EditMedicine extends AppCompatActivity {
 
         handler = new Handler();
 
-        homeButton = findViewById(R.id.home_button);
         saveThisMedicineButton = findViewById(R.id.savethismedicine_button);
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
@@ -74,13 +73,6 @@ public class EditMedicine extends AppCompatActivity {
         TextView dosetypeTv = findViewById(R.id.dosetypeTv);
 
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EditMedicine.this, UserMainMenu.class);
-                startActivity(intent);
-            }
-        });
 
         tabletButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,18 +202,17 @@ public class EditMedicine extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
 
         if (id == R.id.delete)
         {
             AlertDialog.Builder builder_logout = new AlertDialog.Builder(this);
             AlertDialog.Builder delete_success = new AlertDialog.Builder(this);
             builder_logout.setTitle("Delete");
-            builder_logout.setMessage("Are you sure to delete this reminder?");
+            builder_logout.setMessage("Are you sure to delete this medicine?");
             builder_logout.setCancelable(false);
             builder_logout.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override

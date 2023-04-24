@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -120,13 +121,13 @@ public class LoginMenu extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User?email=eq."+mEmail);
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/User?email=eq."+mEmail);
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i("LoginMenu", url.toString());
 
-                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
-                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
 
                 if(hc.getResponseCode() == 401)
                 {
@@ -154,6 +155,7 @@ public class LoginMenu extends AppCompatActivity {
 
                 JSONArray InfoArray = new JSONArray(result);
                 for (int i = 0; i < InfoArray.length(); i++) {
+                    int id = InfoArray.getJSONObject(i).getInt("id");
                     String username_table = InfoArray.getJSONObject(i).get("name").toString();
                     String email_table = InfoArray.getJSONObject(i).get("email").toString();
                     String password_table = InfoArray.getJSONObject(i).get("password").toString();
@@ -164,6 +166,11 @@ public class LoginMenu extends AppCompatActivity {
                                 user_SQLite.openToWrite();
                                 user_SQLite.deleteAll();
                                 user_SQLite.insert(username_table, email_table, password_table);
+
+                                SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putInt("Userid", id);
+                                editor.apply();
 
 
                                 Toast.makeText(getApplicationContext(), "Login Successful !\nWelcome " + user_SQLite.welcome() + " !",

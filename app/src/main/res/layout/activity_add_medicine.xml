@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     android:background="#03A9F4">
 
-    <ImageButton
-        android:id="@+id/home_button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/home"
-        app:backgroundTint="#03A9F4" />
-
     <LinearLayout
         android:id="@+id/bigbutton_container"
         android:layout_width="match_parent"
@@ -85,6 +75,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="New Medicine"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/medicinetype_tv"
