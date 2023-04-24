@@ -23,6 +23,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -80,7 +83,7 @@ public class AddReminder extends AppCompatActivity {
 
         remindSQLite= new ReminderSQLiteAdapter(this);
 
-
+        // Load the medicines data from supabase API
 
         Thread_GetMedicinesName getMedicinesName = new Thread_GetMedicinesName();
         getMedicinesName.start();
@@ -260,6 +263,28 @@ public class AddReminder extends AppCompatActivity {
             // The registered ActivityResultCallback gets the result of this request.
            requestPermissionLauncher.launch(POST_NOTIFICATIONS);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_delete, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu)
+        {
+            Intent intent = new Intent(AddReminder.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

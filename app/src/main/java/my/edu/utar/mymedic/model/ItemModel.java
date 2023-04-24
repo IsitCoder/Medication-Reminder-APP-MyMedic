@@ -6,12 +6,14 @@ public class ItemModel implements Comparable<ItemModel>{
     private String itemName;
     private String itemDose;
     private String date;
+    private boolean itemTaken;
 
-    public ItemModel(String itemTime, String itemName, String itemDose, String date) {
+    public ItemModel(String itemTime, String itemName, String itemDose, String date,boolean itemTaken) {
         this.itemTime = itemTime;
         this.itemName = itemName;
         this.itemDose = itemDose;
         this.date = date;
+        this.itemTaken = itemTaken;
         isSectionHeader=false;
     }
 
@@ -63,5 +65,13 @@ public class ItemModel implements Comparable<ItemModel>{
 
     public void setItemDose(String itemDose) {
         this.itemDose = itemDose;
+    }
+
+    public boolean isItemTaken() {
+        return itemTaken;
+    }
+
+    public void setItemTaken(boolean itemTaken) {
+        this.itemTaken = itemTaken;
     }
 }
