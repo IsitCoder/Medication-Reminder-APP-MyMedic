@@ -42,6 +42,7 @@ public class AlertReceiver extends BroadcastReceiver {
         double dose = intent.getDoubleExtra("dose", 0);
         int mid = intent.getIntExtra("mid", -1);
         int reqCode =intent.getIntExtra("key",0);
+        int userid = intent.getIntExtra("userid",-1);
         mMedicineId = mid;
 
         Intent checkinIntent = new Intent(context, DoseChecking.class);
@@ -53,7 +54,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, reqCode, checkinIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        Thread_DoseChecking thread_doseChecking = new Thread_DoseChecking(mid,reqCode);
+        Thread_DoseChecking thread_doseChecking = new Thread_DoseChecking(mid,reqCode,userid);
         thread_doseChecking.start();
 
 
@@ -74,6 +75,7 @@ public class AlertReceiver extends BroadcastReceiver {
         private String mDateTaken;
         private String mTimeTaken;
         private boolean mTakenStatus;
+        private int userid;
         Calendar c = Calendar.getInstance();
         int hourOfDay = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -83,11 +85,13 @@ public class AlertReceiver extends BroadcastReceiver {
 
         private String TAG="DoseChecking";
 
-        public Thread_DoseChecking(int mMedicineId,int reqCode) {
+
+        public Thread_DoseChecking(int mMedicineId,int reqCode,int userid) {
             this.mMedicineId = mMedicineId;
             this.mReminderId = reqCode;
             this.mDateTaken = date;
             this.mTimeTaken = time;
+            this.userid=userid;
             mTakenStatus = false;
 
         }
@@ -96,7 +100,7 @@ public class AlertReceiver extends BroadcastReceiver {
         public void run() {
                         try {
                             Log.i(TAG, "helloo woowowow");
-                            URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Report");
+                            URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/Report?");
                             HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                             Log.i(TAG, url.toString());
@@ -115,6 +119,7 @@ public class AlertReceiver extends BroadcastReceiver {
                             info.put("TimeTaken", mTimeTaken);
                             info.put("TakenStatus", mTakenStatus);
                             info.put("ReminderId", mReminderId);
+                            info.put("UserId",userid);
                             output.write(info.toString().getBytes());
                             output.flush();
 
