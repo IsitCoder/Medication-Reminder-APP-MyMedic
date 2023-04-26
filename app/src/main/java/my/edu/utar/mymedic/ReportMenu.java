@@ -104,7 +104,7 @@ public class ReportMenu extends AppCompatActivity {
 
         ArrayList<ItemModel> tempList = new ArrayList<>();
         //First we sort the array
-        Collections.sort(itemList);
+        Collections.sort(itemList,Collections.reverseOrder());
 
         //Loops thorugh the list and add a section before each sectioncell start
         String header = "";
@@ -160,7 +160,7 @@ public class ReportMenu extends AppCompatActivity {
                 }else
                 {
                     tv_taken.setText("Miss");
-                    tv_taken.setTextColor(getColor(R.color.red));
+                    tv_taken.setTextColor(getResources().getColor(R.color.red));
                 }
                 //TextView tv_taken = (TextView) v.findViewById(R.id.tv_taken);
 

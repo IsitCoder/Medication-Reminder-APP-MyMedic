@@ -109,14 +109,14 @@ public class ChangePassword extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User?email=eq."+email);
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/User?email=eq."+email);
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
 
                 Log.i("ChangePassword", url.toString());
 
                 hc.setRequestMethod("PATCH");
-                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
-                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
                 hc.setRequestProperty("Content-Type", "application/json");
                 hc.setRequestProperty("Prefer", "return=minimal");
 

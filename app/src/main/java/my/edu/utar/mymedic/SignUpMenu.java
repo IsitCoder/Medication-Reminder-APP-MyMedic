@@ -160,8 +160,8 @@ public class SignUpMenu extends AppCompatActivity {
 
         public void run() {
             try {
-                URL url = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User");
-                URL url2 = new URL("https://wymykyfxrokwlhokedwg.supabase.co/rest/v1/User?email=eq."+mEmail);
+                URL url = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/User");
+                URL url2 = new URL("https://bczsansikazvyoywabmo.supabase.co/rest/v1/User?email=eq."+mEmail);
                 HttpURLConnection hc = (HttpURLConnection) url.openConnection();
                 HttpURLConnection hc2 = (HttpURLConnection) url2.openConnection();
 
@@ -169,13 +169,13 @@ public class SignUpMenu extends AppCompatActivity {
                 Log.i("SignUpMenu", url2.toString());
 
                 hc.setRequestMethod("POST");
-                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
-                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+                hc.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
                 hc.setRequestProperty("Content-Type", "application/json");
                 hc.setRequestProperty("Prefer", "return=minimal");
 
-                hc2.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY));
-                hc2.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY));
+                hc2.setRequestProperty("apikey", getString(R.string.SUPABASE_KEY1));
+                hc2.setRequestProperty("Authorization", "Bearer " + getString(R.string.SUPABASE_KEY1));
 
 
                 InputStream input2 = hc2.getInputStream();
