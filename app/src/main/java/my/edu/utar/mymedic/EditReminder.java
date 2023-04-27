@@ -14,6 +14,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,6 +67,7 @@ public class EditReminder extends AppCompatActivity {
     private String medicineName;
     private double dose;
     private int key;
+    private int userid;
     private boolean timeset=false;
 
     private int NOTIFICATION_PERMISSION_CODE =1;
@@ -83,6 +85,11 @@ public class EditReminder extends AppCompatActivity {
         medicationButton = findViewById(R.id.medication_button);
         reminderButton = findViewById(R.id.reminder_button);
         reportButton = findViewById(R.id.report_button);
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Retrieve a boolean value with key "userid"
+        userid = preferences.getInt("Userid",-1);
 
 
 
@@ -361,6 +368,7 @@ public class EditReminder extends AppCompatActivity {
             intent.putExtra("key",Alarmid);
             intent.putExtra("dose",dose);
             intent.putExtra("mid",mid);
+            intent.putExtra("userid",userid);
 
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, Alarmid, intent, PendingIntent.FLAG_IMMUTABLE);
